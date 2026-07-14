@@ -13,11 +13,13 @@ import Transactions from './pages/Transactions.jsx';
 import Budgets from './pages/Budgets.jsx';
 import Alerts from './pages/Alerts.jsx';
 import Reports from './pages/Reports.jsx';
+import { NotificationProvider } from './context/NotificationContext.jsx';
 
 const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <NotificationProvider>
         {/* One Toaster for the whole app. Any component can now call toast(). */}
         <Toaster position='top-right' />
 
@@ -59,6 +61,7 @@ const App = () => {
 
           <Route path='*' element={<h1 className='p-10'>Page not found</h1>} />
         </Routes>
+        </NotificationProvider>
       </AuthProvider>
     </BrowserRouter>
   );

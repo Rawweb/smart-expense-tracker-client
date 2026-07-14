@@ -3,10 +3,12 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { Bell, LogOut, Menu, X } from 'lucide-react';
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { useNotifications } from '../context/NotificationContext.jsx';
 
 const Layout = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const { unreadCount } = useNotifications();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -59,9 +61,15 @@ const Layout = () => {
           <div className='ml-auto flex items-center gap-2 md:gap-3'>
             <NavLink
               to='/alerts'
-              className='grid h-9 w-9 place-items-center rounded-lg border border-line text-ink hover:bg-paper'
+              className='relative grid h-9 w-9 place-items-center rounded-lg border border-line text-ink hover:bg-paper'
             >
               <Bell size={16} />
+
+              {unreadCount > 0 && (
+                <span className='absolute -right-1.5 -top-1.5 grid h-[17px] min-w-[17px] place-items-center rounded-full bg-over px-1 text-[10px] font-bold text-white'>
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
             </NavLink>
 
             <div className='grid h-8 w-8 place-items-center rounded-full bg-line text-xs font-bold text-brand'>

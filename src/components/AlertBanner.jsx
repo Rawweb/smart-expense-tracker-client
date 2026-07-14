@@ -1,18 +1,22 @@
-import { useState } from 'react';
 import { X } from 'lucide-react';
 
 import { markAsRead } from '../api/notifications.js';
+import { useNotifications } from '../context/NotificationContext.jsx';
 import { formatRelative } from '../utils/format.js';
 
 const AlertBanner = ({ alert }) => {
-  // Local, so the banner can vanish the instant it is clicked.
-  const [dismissed, setDismissed] = useState(false);
+  const { notifications, markOneAsRead } = useNotifications();
 
-  if (!alert || dismissed) return null;
+  if (!alert) return null;
+
+  // Read from the shared context, not from local state.
+  // If this alert was marked read on the Alerts page, the banner is already gone.
+  const current = notifications.find((n) => n._id === alert._id);
+  if (current?.isRead) return null;
 
   const handleDismiss = async () => {
-    // Hide first. The user gets an instant response.
-    setDismissed(true);
+    // Optimistic. The banner vanishes and the bell count drops together.
+    markOneAsRead(alert._id);
 
     try {
       await markAsRead(alert._id);
