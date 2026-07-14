@@ -17,6 +17,8 @@ export const INCOME_SOURCES = [
   'Other',
 ];
 
+export const CHART_COLORS = ['#f04438', '#f5a524', '#5c7cfa', '#12b76a', '#98a2b3'];
+
 export const BUDGET_SCOPES = ['Overall', ...EXPENSE_CATEGORIES];
 
 export const THRESHOLDS = [50, 80, 100];
