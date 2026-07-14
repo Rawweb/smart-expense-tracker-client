@@ -5,7 +5,10 @@ export const formatNaira = (amount) => {
 };
 
 export const formatDate = (date) => {
-  return format(new Date(date), 'd MMM yyyy');
+  const d = new Date(date);
+  const utc = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+
+  return format(utc, 'd MMM yyyy');
 };
 
 // "2 hours ago". Used on the alerts list.

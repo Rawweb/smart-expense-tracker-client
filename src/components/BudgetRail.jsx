@@ -11,7 +11,7 @@ const BudgetRail = ({ budget }) => {
 
   return (
     <div className='border-b border-line bg-card'>
-      <div className='mx-auto flex max-w-6xl items-center gap-4 px-6 pb-3'>
+      <div className='mx-auto flex max-w-6xl items-center gap-4 px-6 py-3 text-sm'>
         <span className='whitespace-nowrap text-[11px] font-semibold uppercase tracking-wider text-muted'>
           {budget.name}
         </span>

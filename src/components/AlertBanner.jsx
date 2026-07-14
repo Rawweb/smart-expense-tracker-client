@@ -1,7 +1,26 @@
+import { useState } from 'react';
+import { X } from 'lucide-react';
+
+import { markAsRead } from '../api/notifications.js';
 import { formatRelative } from '../utils/format.js';
 
 const AlertBanner = ({ alert }) => {
-  if (!alert) return null;
+  // Local, so the banner can vanish the instant it is clicked.
+  const [dismissed, setDismissed] = useState(false);
+
+  if (!alert || dismissed) return null;
+
+  const handleDismiss = async () => {
+    // Hide first. The user gets an instant response.
+    setDismissed(true);
+
+    try {
+      await markAsRead(alert._id);
+    } catch (error) {
+      // Low stakes. It stays unread and reappears on the next load.
+      console.error('Could not mark as read:', error.message);
+    }
+  };
 
   const styles = {
     50: 'border-w50/40 bg-w50/5 border-l-w50',
@@ -15,6 +34,8 @@ const AlertBanner = ({ alert }) => {
     100: 'bg-over',
   };
 
+  const scope = alert.category === 'Overall' ? 'overall' : alert.category;
+
   return (
     <div
       className={`flex items-start gap-3 rounded-xl border border-l-4 p-4 ${styles[alert.threshold]}`}
@@ -24,10 +45,8 @@ const AlertBanner = ({ alert }) => {
       <div className='min-w-0 flex-1'>
         <p className='text-sm font-bold'>
           {alert.threshold === 100
-            ? `Your ${alert.category === 'Overall' ? 'overall' : alert.category} budget is finished`
-            : `You have passed ${alert.threshold}% of your ${
-                alert.category === 'Overall' ? 'overall' : alert.category
-              } budget`}
+            ? `Your ${scope} budget is finished`
+            : `You have passed ${alert.threshold}% of your ${scope} budget`}
         </p>
         <p className='mt-0.5 text-sm text-muted'>{alert.message}</p>
       </div>
@@ -35,6 +54,14 @@ const AlertBanner = ({ alert }) => {
       <span className='mono shrink-0 text-[11px] text-muted'>
         {formatRelative(alert.createdAt)}
       </span>
+
+      <button
+        onClick={handleDismiss}
+        aria-label='Dismiss alert'
+        className='-mr-1 -mt-1 shrink-0 rounded-md p-1 text-muted transition hover:bg-ink/5 hover:text-ink'
+      >
+        <X size={15} />
+      </button>
     </div>
   );
 };
