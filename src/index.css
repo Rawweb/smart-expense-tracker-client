@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #f4f6f9;
+  --color-card: #ffffff;
+  --color-line: #e5e9f0;
+
+  --color-ink: #0f172a;
+  --color-muted: #6b7a90;
+
+  --color-brand: #1e2a47;
+  --color-brand-hover: #2b3a5e;
+
+  --color-safe: #12b76a;
+  --color-w50: #f5a524;
+  --color-w80: #fb6514;
+  --color-over: #f04438;
+
+  --color-chart-1: #f04438;
+  --color-chart-2: #f5a524;
+  --color-chart-3: #5c7cfa;
+  --color-chart-4: #12b76a;
+  --color-chart-5: #98a2b3;
+
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* Money and percentages use the mono face so the digits line up in a column.
+   Tabular numerals stop a 1 being narrower than an 8. */
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
