@@ -65,9 +65,9 @@ const Register = () => {
       <div className='hidden flex-col justify-between border-r border-line bg-card p-14 lg:flex'>
         <div className='flex items-center gap-2'>
           <div className='grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-extrabold text-white'>
-            S
+            ET
           </div>
-          <span className='font-extrabold'>SpendWatch</span>
+          <span className='font-extrabold'>ExpenseTracker</span>
         </div>
 
         <div>
@@ -81,7 +81,7 @@ const Register = () => {
         </div>
 
         <p className='text-xs text-muted'>
-          © {new Date().getFullYear()} SpendWatch. Developed by Rawfile.
+          © {new Date().getFullYear()} ExpenseTracker. Developed by Rawfile.
         </p>
       </div>
 

@@ -44,9 +44,9 @@ const Layout = () => {
         <nav className='mx-auto flex h-16 max-w-6xl items-center gap-1 px-4 md:px-6'>
           <div className='mr-6 flex items-center gap-2'>
             <div className='grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-extrabold text-white'>
-              S
+              ET
             </div>
-            <span className='text-[15px] font-extrabold'>SpendWatch</span>
+            <span className='text-[15px] font-extrabold'>ExpenseTracker</span>
           </div>
 
           {/* Desktop links. Hidden below md. */}
