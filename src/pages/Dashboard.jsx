@@ -127,6 +127,7 @@ const Dashboard = () => {
       <div className='grid gap-4 lg:grid-cols-2'>
         {/* Requirement 3.5.1 item 2: what does the user spend most on. */}
         <Card
+          className='min-w-0'
           title='Spending by category'
           action={
             <Link to='/reports' className='text-xs font-semibold text-muted hover:text-ink'>
@@ -148,14 +149,16 @@ const Dashboard = () => {
             the donut shows the shape, the bars let you read exact figures. */}
                 <div className='w-full min-w-0 flex-1 space-y-3'>
                   {byCategory.categories.map((cat, i) => (
-                    <div key={cat.category} className='flex items-center gap-3'>
+                    <div key={cat.category} className='flex min-w-0 items-center gap-2 sm:gap-3'>
                       <span
                         className='h-2.5 w-2.5 shrink-0 rounded-sm'
                         style={{ backgroundColor: CHART_COLORS[i % CHART_COLORS.length] }}
                       />
-                      <span className='w-28 truncate text-sm font-medium'>{cat.category}</span>
+                      <span className='w-24 shrink-0 truncate text-sm font-medium sm:w-28'>
+                        {cat.category}
+                      </span>
 
-                      <div className='h-2 flex-1 rounded-full bg-paper'>
+                      <div className='h-2 min-w-0 flex-1 rounded-full bg-paper'>
                         <div
                           className='h-2 rounded-full'
                           style={{
@@ -165,10 +168,10 @@ const Dashboard = () => {
                         />
                       </div>
 
-                      <span className='mono w-20 text-right text-sm font-semibold'>
+                      <span className='mono w-16 shrink-0 text-right text-xs font-semibold sm:w-20 sm:text-sm'>
                         {formatNaira(cat.total)}
                       </span>
-                      <span className='mono w-9 text-right text-xs text-muted'>
+                      <span className='mono w-8 shrink-0 text-right text-xs text-muted sm:w-9'>
                         {cat.percentage}%
                       </span>
                     </div>
@@ -187,6 +190,7 @@ const Dashboard = () => {
 
         {/* The category budgets, with their progress bars. */}
         <Card
+          className='min-w-0'
           title='Budgets'
           action={
             <Link to='/budgets' className='text-xs font-semibold text-muted hover:text-ink'>

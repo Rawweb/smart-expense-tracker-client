@@ -91,14 +91,20 @@ const Alerts = () => {
             <div
               key={n._id}
               onClick={() => handleMarkOne(n)}
-              className={`flex cursor-pointer items-start gap-3 border-b border-line py-4 last:border-0 ${
+              className={`relative cursor-pointer border-b border-line py-4 last:border-0 sm:flex sm:items-start sm:gap-3 ${
                 n.isRead ? 'opacity-55' : ''
               }`}
             >
-              <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${dots[n.threshold]}`} />
+              <span
+                className={`absolute top-[1.35rem] left-0 h-2 w-2 shrink-0 rounded-full sm:static sm:mt-1.5 ${dots[n.threshold]}`}
+              />
 
-              <div className='min-w-0 flex-1'>
-                <p className='text-sm font-bold'>
+              <div className='min-w-0 pl-5 pr-12 sm:flex-1 sm:px-0'>
+                <p className='text-sm font-bold sm:hidden'>
+                  {n.category === 'Overall' ? 'Overall budget' : `${n.category} budget`}
+                </p>
+
+                <p className='hidden text-sm font-bold sm:block'>
                   {n.threshold === 100
                     ? `Your ${n.category === 'Overall' ? 'overall' : n.category} budget is finished`
                     : `You have passed ${n.threshold}% of your ${
@@ -111,11 +117,13 @@ const Alerts = () => {
 
               {/* The snapshot. This is what the numbers WERE when it fired, not
                   what they are now. That is why an old alert stays true. */}
-              <span className={`mono shrink-0 text-sm font-bold ${texts[n.threshold]}`}>
+              <span
+                className={`mono absolute top-4 right-0 text-sm font-bold sm:static sm:shrink-0 ${texts[n.threshold]}`}
+              >
                 {n.percentage}%
               </span>
 
-              <span className='mono shrink-0 text-[11px] text-muted'>
+              <span className='mono mt-2 block pl-5 text-right text-[11px] text-muted sm:mt-0 sm:shrink-0 sm:pl-0'>
                 {formatRelative(n.createdAt)}
               </span>
             </div>

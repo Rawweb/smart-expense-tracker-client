@@ -42,11 +42,13 @@ const AlertBanner = ({ alert }) => {
 
   return (
     <div
-      className={`flex items-start gap-3 rounded-xl border border-l-4 p-4 ${styles[alert.threshold]}`}
+      className={`relative rounded-xl border border-l-4 p-4 sm:flex sm:items-start sm:gap-3 ${styles[alert.threshold]}`}
     >
-      <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${dots[alert.threshold]}`} />
+      <span
+        className={`absolute top-[1.35rem] left-4 h-2 w-2 shrink-0 rounded-full sm:static sm:mt-1.5 ${dots[alert.threshold]}`}
+      />
 
-      <div className='min-w-0 flex-1'>
+      <div className='min-w-0 pl-5 pr-4 sm:flex-1 sm:px-0'>
         <p className='text-sm font-bold'>
           {alert.threshold === 100
             ? `Your ${scope} budget is finished`
@@ -55,14 +57,14 @@ const AlertBanner = ({ alert }) => {
         <p className='mt-0.5 text-sm text-muted'>{alert.message}</p>
       </div>
 
-      <span className='mono shrink-0 text-[11px] text-muted'>
+      <span className='mono mt-2 block pl-5 text-[11px] text-muted sm:mt-0 sm:shrink-0 sm:pl-0'>
         {formatRelative(alert.createdAt)}
       </span>
 
       <button
         onClick={handleDismiss}
         aria-label='Dismiss alert'
-        className='-mr-1 -mt-1 shrink-0 rounded-md p-1 text-muted transition hover:bg-ink/5 hover:text-ink'
+        className='absolute top-3 right-3 rounded-md p-1 text-muted transition hover:bg-ink/5 hover:text-ink sm:static sm:-mr-1 sm:-mt-1 sm:shrink-0'
       >
         <X size={15} />
       </button>

@@ -131,8 +131,51 @@ const Transactions = () => {
         </Card>
       ) : (
         <Card>
+          <div className='space-y-3 md:hidden'>
+            {items?.map((item) => (
+              <div key={item._id} className='rounded-lg border border-line bg-paper p-3'>
+                <div className='flex items-start gap-3'>
+                  <p className='min-w-0 flex-1 text-sm font-semibold'>{item.title}</p>
+
+                  <div className='-mr-1 -mt-1 flex shrink-0 gap-1'>
+                    <button
+                      onClick={() => openEdit(item)}
+                      aria-label={`Edit ${item.title}`}
+                      className='rounded-md p-1.5 text-muted hover:bg-card hover:text-ink'
+                    >
+                      <Pencil size={15} />
+                    </button>
+                    <button
+                      onClick={() => setDeleting(item)}
+                      aria-label={`Delete ${item.title}`}
+                      className='rounded-md p-1.5 text-muted hover:bg-card hover:text-over'
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className='mt-3 flex items-end justify-between gap-3 border-t border-line pt-3'>
+                  <div className='min-w-0 space-y-1.5'>
+                    <Badge>{isExpenses ? item.category : item.source}</Badge>
+                    <p className='mono text-xs text-muted'>{formatDate(item.date)}</p>
+                  </div>
+
+                  <span
+                    className={`mono shrink-0 text-base font-bold ${
+                      isExpenses ? 'text-ink' : 'text-safe'
+                    }`}
+                  >
+                    {isExpenses ? '-' : '+'}
+                    {formatNaira(item.amount)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
           {/* A real table, so screen readers understand the structure. */}
-          <div className='overflow-x-auto'>
+          <div className='hidden overflow-x-auto md:block'>
             <table className='w-full'>
               <thead>
                 <tr className='border-b border-line'>
