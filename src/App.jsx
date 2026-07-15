@@ -14,53 +14,55 @@ import Budgets from './pages/Budgets.jsx';
 import Alerts from './pages/Alerts.jsx';
 import Reports from './pages/Reports.jsx';
 import { NotificationProvider } from './context/NotificationContext.jsx';
+import { SocketProvider } from './context/SocketContext.jsx';
 
 const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
         <NotificationProvider>
-        {/* One Toaster for the whole app. Any component can now call toast(). */}
-        <Toaster position='top-right' />
+          <SocketProvider>
+            <Toaster position='top-right' />
 
-        <Routes>
-          {/* Public. A logged in user gets bounced away from these. */}
-          <Route
-            path='/login'
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path='/register'
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
+            <Routes>
+              {/* Public. A logged in user gets bounced away from these. */}
+              <Route
+                path='/login'
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path='/register'
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
 
-          {/* Private. The guard wraps Layout, so all five pages inherit it. */}
-          <Route
-            path='/'
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
-            {/* These render into Layout's <Outlet />. */}
-            <Route index element={<Dashboard />} />
-            <Route path='transactions' element={<Transactions />} />
-            <Route path='budgets' element={<Budgets />} />
-            <Route path='alerts' element={<Alerts />} />
-            <Route path='reports' element={<Reports />} />
-          </Route>
+              {/* Private. The guard wraps Layout, so all five pages inherit it. */}
+              <Route
+                path='/'
+                element={
+                  <ProtectedRoute>
+                    <Layout />
+                  </ProtectedRoute>
+                }
+              >
+                {/* These render into Layout's <Outlet />. */}
+                <Route index element={<Dashboard />} />
+                <Route path='transactions' element={<Transactions />} />
+                <Route path='budgets' element={<Budgets />} />
+                <Route path='alerts' element={<Alerts />} />
+                <Route path='reports' element={<Reports />} />
+              </Route>
 
-          <Route path='*' element={<h1 className='p-10'>Page not found</h1>} />
-        </Routes>
+              <Route path='*' element={<h1 className='p-10'>Page not found</h1>} />
+            </Routes>
+          </SocketProvider>
         </NotificationProvider>
       </AuthProvider>
     </BrowserRouter>

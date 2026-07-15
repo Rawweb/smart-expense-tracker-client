@@ -13,9 +13,17 @@ import AlertBanner from '../components/AlertBanner.jsx';
 import CategoryDonut from '../components/CategoryDonut.jsx';
 import { formatNaira, formatDate, getBudgetColor } from '../utils/format.js';
 import { CHART_COLORS } from '../utils/constants.js';
+import { useEffect } from 'react';
+import { useNotifications } from '../context/NotificationContext.jsx';
 
 const Dashboard = () => {
-  const { data, loading, error } = useFetch(getDashboard);
+  const { data, loading, error, refetch } = useFetch(getDashboard);
+  const { alertTick } = useNotifications();
+
+  // when a new alert arrives, the dashboard should refresh.
+  useEffect(() => {
+    if (alertTick > 0) refetch();
+  }, [alertTick, refetch]);
 
   if (loading) {
     return (

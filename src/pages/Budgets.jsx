@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { getBudgets, deleteBudget } from '../api/budgets.js';
 import useFetch from '../hooks/useFetch.js';
-
 import Card from '../components/ui/Card.jsx';
 import Button from '../components/ui/Button.jsx';
 import Modal from '../components/ui/Modal.jsx';
@@ -12,7 +11,7 @@ import { BudgetCardSkeleton } from '../components/ui/Skeletons.jsx';
 import BudgetCard from '../components/BudgetCard.jsx';
 import BudgetForm from '../components/BudgetForm.jsx';
 import ConfirmDialog from '../components/ConfirmDialog.jsx';
-
+import { useNotifications } from '../context/NotificationContext.jsx';
 import { formatNaira } from '../utils/format.js';
 
 const Budgets = () => {
@@ -22,6 +21,12 @@ const Budgets = () => {
   const [editing, setEditing] = useState(null);
   const [deleting, setDeleting] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const { alertTick } = useNotifications();
+
+  useEffect(() => {
+    if (alertTick > 0) refetch();
+  }, [alertTick, refetch]);
 
   const handleDone = () => {
     setFormOpen(false);

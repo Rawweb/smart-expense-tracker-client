@@ -8,6 +8,7 @@ import Select from './ui/Select.jsx';
 import { X } from 'lucide-react';
 import { formatNaira } from '../utils/format.js';
 import { EXPENSE_CATEGORIES } from '../utils/constants.js';
+import { useNotifications } from '../context/NotificationContext.jsx';
 
 // Turns a date into the YYYY-MM-DD that <input type="date"> demands.
 // Any other format and the input silently shows blank.
@@ -15,6 +16,7 @@ const toInputDate = (date) => new Date(date).toISOString().split('T')[0];
 
 // One form, two jobs. Pass an expense to edit it, pass nothing to create.
 const ExpenseForm = ({ expense, onDone }) => {
+  const { refetch: refetchNotifications } = useNotifications();
   const isEdit = Boolean(expense);
 
   const [form, setForm] = useState({
@@ -110,6 +112,10 @@ const ExpenseForm = ({ expense, onDone }) => {
           { duration: 6000 },
         );
       });
+
+      if (res.data.alerts?.length > 0) {
+        refetchNotifications();
+      }
 
       onDone();
     } catch (error) {

@@ -14,6 +14,14 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
+  // Lets the server skip echoing an alert back to the tab that caused it.
+  // That tab already receives its alerts in the HTTP response.
+  const socketId = localStorage.getItem('socketId');
+
+  if (socketId) {
+    config.headers['x-socket-id'] = socketId;
+  }
+
   return config;
 });
 

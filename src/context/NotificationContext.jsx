@@ -12,9 +12,10 @@ export const NotificationProvider = ({ children }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  // Ticks up every time a socket alert arrives. Pages watch this and refetch.
+  const [alertTick, setAlertTick] = useState(0);
+
   const fetchNotifications = useCallback(async () => {
-    // No user, nothing to fetch. This also stops a request firing on the
-    // login page, which would 401 and bounce the user around.
     if (!user) {
       setNotifications([]);
       setUnreadCount(0);
@@ -33,18 +34,12 @@ export const NotificationProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Runs on mount, and again whenever the user changes, so logging out clears
-  // the previous user's alerts rather than leaving them on screen.
   useEffect(() => {
     fetchNotifications();
   }, [fetchNotifications]);
 
-  // Called from the Alerts page. The bell in the Layout updates too, because
-  // both read the same context.
   const markOneAsRead = (id) => {
     setNotifications((prev) => prev.map((n) => (n._id === id ? { ...n, isRead: true } : n)));
-
-    // Never let this go negative if something is called twice.
     setUnreadCount((prev) => Math.max(prev - 1, 0));
   };
 
@@ -53,6 +48,13 @@ export const NotificationProvider = ({ children }) => {
     setUnreadCount(0);
   };
 
+  // Called by SocketContext when an alert pushes in from another device.
+  // useCallback keeps its identity stable, so the socket effect does not
+  // rebuild itself every render.
+  const bumpAlertTick = useCallback(() => {
+    setAlertTick((prev) => prev + 1);
+  }, []);
+
   const value = {
     notifications,
     unreadCount,
@@ -60,6 +62,8 @@ export const NotificationProvider = ({ children }) => {
     refetch: fetchNotifications,
     markOneAsRead,
     markAllRead,
+    alertTick,
+    bumpAlertTick,
   };
 
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
